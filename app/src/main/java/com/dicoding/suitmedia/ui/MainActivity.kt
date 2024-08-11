@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         binding.apply {
             btnCheck.setOnClickListener {
                 if (edPalindrome.text.toString().isEmpty()) {
-                    showToast(getString(R.string.error_empty))
+                    showToast(getString(R.string.palindrome_error_empty))
                 } else {
                     val result = isPalindrome(edPalindrome.text.toString())
                     if (result) {
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
             }
             btnNext.setOnClickListener {
                 if (edName.text.toString().isEmpty()) {
-                    showToast(getString(R.string.error_empty))
+                    showToast(getString(R.string.name_error_empty))
                 } else {
                     moveActivity(edName.text.toString())
                 }

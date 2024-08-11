@@ -20,7 +20,8 @@ import com.dicoding.suitmedia.network.response.UserItem
 
 class ThirdActivity : AppCompatActivity() {
     private lateinit var binding: ActivityThirdBinding
-    private var isLoading = false
+    private var isLoading = true
+    private var isError = false
     private val viewModel by viewModels<ThirdViewModel> {
         ViewModelFactory.getInstance(this)
     }
@@ -37,7 +38,10 @@ class ThirdActivity : AppCompatActivity() {
         }
 
         isLoading = savedInstanceState?.getBoolean(EXTRA_LOADING) ?: true
+        isError = savedInstanceState?.getBoolean(EXTRA_ERROR) ?: false
+        Log.e(TAG, "Saving instance state: isLoading=$isLoading, isError=$isError")
         showLoading(isLoading)
+        showError(isError)
         
         viewModel.listUser.observe(this@ThirdActivity) {
             showUser(it)
@@ -59,9 +63,21 @@ class ThirdActivity : AppCompatActivity() {
 
     }
 
+    private fun showError(error: Boolean) {
+        if (error) {
+            binding.errorServer.visibility = View.VISIBLE
+        } else {
+            binding.errorServer.visibility = View.GONE
+        }
+    }
+
     private fun showUser(it: PagingData<UserItem>) {
         val adapter =ReviewUsersAdapter()
-        binding.rvUser.adapter = adapter
+        binding.rvUser.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter{
+                adapter.retry()
+            }
+        )
         binding.rvUser.layoutManager = LinearLayoutManager(this)
         adapter.submitData(lifecycle, it)
         adapter.setOnItemClickCallback(object : ReviewUsersAdapter.OnItemClickCallback {
@@ -77,18 +93,20 @@ class ThirdActivity : AppCompatActivity() {
 
         adapter.addLoadStateListener { loadState ->
             if (loadState.refresh is LoadState.Loading) {
-                showLoading(true)
+                isLoading = true
             } else {
-                showLoading(false)
+                isLoading = false
                 if (loadState.refresh is LoadState.Error) {
-                    binding.errorServer.visibility = View.VISIBLE
-                } else {
-                    binding.errorServer.visibility = View.GONE
-                }
+                    isError = true
 
+                } else {
+                    isError = false
+                }
+                showError(isError)
                 val isListEmpty = adapter.itemCount == 0
                 isAdapterEmpty(isListEmpty)
             }
+            showLoading(isLoading)
         }
     }
 
@@ -107,7 +125,8 @@ class ThirdActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBoolean("isLoading", isLoading)
+        outState.putBoolean(EXTRA_LOADING, isLoading)
+        outState.putBoolean(EXTRA_ERROR, isError)
     }
 
 
@@ -115,5 +134,6 @@ class ThirdActivity : AppCompatActivity() {
         const val EXTRA_SELECTED_NAME = "extra_selected_name"
         const val TAG = "ThirdActivity"
         const val EXTRA_LOADING = "extra_loading"
+        const val EXTRA_ERROR = "extra_error"
     }
 }
