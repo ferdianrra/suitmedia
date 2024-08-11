@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.MainActivity"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@drawable/background"
+    >
+
+    <ImageView
+        android:layout_width="116dp"
+        android:layout_height="116dp"
+        android:src="@drawable/ic_photo"
+        android:contentDescription="@string/icon_logo"
+        />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/edit_layout"
+        android:id="@+id/nameEditTextLayout"
+        android:layout_marginTop="51dp" >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ed_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:hint="@string/name"
+            android:textColorHint="@color/hint_color"
+            android:inputType="textPersonName"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/edit_layout"
+        android:id="@+id/palindromeEditTextLayout"
+        android:layout_marginTop="15dp" >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ed_palindrome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:hint="@string/palindrome"
+            android:textColorHint="@color/hint_color"
+            android:inputType="textPersonName"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
+    
+    <com.dicoding.suitmedia.ui.customview.MyBlueButton
+        android:id="@+id/btn_check"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="33dp"
+        android:layout_marginTop="45dp"
+        android:text="@string/check" />
+
+    <com.dicoding.suitmedia.ui.customview.MyBlueButton
+        android:id="@+id/btn_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="33dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/next" />
+
+
+
+</LinearLayout>
